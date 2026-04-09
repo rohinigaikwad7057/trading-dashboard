@@ -8,8 +8,7 @@ let socket: WebSocket | null = null;
 export const connectSocket = (
   onMessage: (data: PriceData) => void
 ): WebSocket => {
-  if (!socket) {
-    socket = new WebSocket("ws://localhost:3001");
+    socket = new WebSocket("ws://localhost:3000");
 
     socket.onopen = () => {
       console.log("WebSocket connected");
@@ -23,7 +22,7 @@ export const connectSocket = (
     socket.onerror = (error) => {
       console.error("WebSocket error", error);
     };
-  }
+  
 
   socket.onmessage = (event) => {
     try {
