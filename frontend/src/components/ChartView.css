@@ -1,0 +1,15 @@
+.chart-card {
+  text-align: center;
+}
+
+.chart-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.no-data {
+  color: #888;
+  font-size: 14px;
+  margin-top: 20px;
+}
