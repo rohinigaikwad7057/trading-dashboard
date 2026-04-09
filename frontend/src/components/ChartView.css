@@ -1,15 +1,31 @@
 .chart-card {
-  text-align: center;
+  overflow: hidden;
+  text-align: left;
+  width: 100%;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
 }
 
 .chart-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #111827;
 }
 
 .no-data {
-  color: #888;
-  font-size: 14px;
+  color: #6b7280;
+  font-size: 0.95rem;
   margin-top: 20px;
+}
+
+.chart-wrapper {
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .chart-card {
+    min-height: 320px;
+  }
 }

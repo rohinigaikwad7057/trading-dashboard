@@ -5,9 +5,25 @@
 }
 
 .dropdown select {
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 14px;
+  width: min(100%, 360px);
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  color: #111827;
+  background: #ffffff;
   cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dropdown select:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+}
+
+@media (max-width: 640px) {
+  .dropdown {
+    margin-bottom: 16px;
+  }
 }
