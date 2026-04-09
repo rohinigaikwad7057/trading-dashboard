@@ -3,18 +3,21 @@ import "./TickerSelector.css";
 type Props = {
   selected: string;
   onChange: (value: string) => void;
+  options: string[];
 };
 
-const TickerSelector = ({ selected, onChange }: Props) => {
+const TickerSelector = ({ selected, onChange, options }: Props) => {
   return (
     <div className="dropdown">
       <select
         value={selected}
         onChange={(e) => onChange(e.target.value)}
       >
-        <option value="AAPL">AAPL</option>
-        <option value="TSLA">TSLA</option>
-        <option value="BTC-USD">BTC-USD</option>
+        {options.map((ticker) => (
+          <option key={ticker} value={ticker}>
+            {ticker}
+          </option>
+        ))}
       </select>
     </div>
   );

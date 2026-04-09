@@ -4,6 +4,8 @@ import type { PriceData } from "./services/websocket";
 import TickerSelector from "./components/TickerSelector";
 import PriceList from "./components/PriceList";
 import ChartView from "./components/ChartView";
+import { fetchHistory, fetchTickers } from "./services/Api";
+
 
 type ChartData = {
   time: string;
@@ -12,21 +14,47 @@ type ChartData = {
 };
 
 function App() {
-  // Store latest prices
+  // prices for list
   const [prices, setPrices] = useState<Record<string, string>>({});
-  // Store chart data (NO any)
+  // chart data
   const [chartData, setChartData] = useState<ChartData[]>([]);
-  // Selected symbol
-  const [selectedSymbol, setSelectedSymbol] = useState<string>("TSLA");
+  // selected ticker
+  const [selectedSymbol, setSelectedSymbol] = useState<string>("");
+  // dynamic tickers from API
+  const [tickers, setTickers] = useState<string[]>([]);
 
+  // ---------------- FETCH TICKERS ----------------
+  useEffect(() => {
+    fetchTickers().then((data) => {
+      setTickers(data);
+
+      // set default ticker
+      if (data.length > 0) {
+        setSelectedSymbol(data[0]);
+      }
+    });
+  }, []);
+
+  // ---------------- FETCH HISTORY ----------------
+  useEffect(() => {
+    if (!selectedSymbol) return;
+
+    fetchHistory(selectedSymbol).then((data) => {
+      setChartData(data);
+    });
+  }, [selectedSymbol]);
+
+  // ---------------- WEBSOCKET ----------------
   useEffect(() => {
     const socket = connectSocket((data: PriceData) => {
-      //Update price list
+      // update price list
       setPrices((prev) => ({
         ...prev,
         [data.symbol]: data.price,
       }));
-      //Update chart data (last 20 points)
+
+      // update chart ONLY for selected symbol
+        if (data.symbol === selectedSymbol) {
       setChartData((prev) => [
         ...prev.slice(-20),
         {
@@ -35,15 +63,11 @@ function App() {
           symbol: data.symbol,
         },
       ]);
+        }
     });
 
     return () => socket.close();
-  }, []);
-
-  // Filter data for selected symbol
-  const filteredData = chartData.filter(
-    (item: ChartData) => item.symbol === selectedSymbol
-  );
+  }, [selectedSymbol]);
 
   return (
     <div className="container">
@@ -52,11 +76,12 @@ function App() {
       <TickerSelector
         selected={selectedSymbol}
         onChange={setSelectedSymbol}
+        options={tickers}
       />
 
   <div className="dashboard-grid">
       <PriceList prices={prices} />
-    <ChartView data={filteredData} symbol={selectedSymbol} />
+    <ChartView data={chartData} symbol={selectedSymbol} />
   </div>
     </div>
   );
