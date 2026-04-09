@@ -1,0 +1,22 @@
+.price-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 15px;
+  transition: background 0.2s;
+}
+
+.price-item:hover {
+  background: #f9fafb;
+}
+
+.price-green {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.price-red {
+  color: #dc2626;
+  font-weight: 600;
+}
