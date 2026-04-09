@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { connectSocket } from "./services/websocket";
 import type { PriceData } from "./services/websocket";
 import TickerSelector from "./components/TickerSelector";
 import PriceList from "./components/PriceList";
 import ChartView from "./components/ChartView";
-import { fetchHistory, fetchTickers } from "./services/Api";
+import { fetchHistory, fetchTickers } from "./services/api";
 
 
 type ChartData = {
@@ -22,6 +22,11 @@ function App() {
   const [selectedSymbol, setSelectedSymbol] = useState<string>("");
   // dynamic tickers from API
   const [tickers, setTickers] = useState<string[]>([]);
+  const selectedSymbolRef = useRef<string>(selectedSymbol);
+
+  useEffect(() => {
+    selectedSymbolRef.current = selectedSymbol;
+  }, [selectedSymbol]);
 
   // ---------------- FETCH TICKERS ----------------
   useEffect(() => {
@@ -32,12 +37,20 @@ function App() {
       if (data.length > 0) {
         setSelectedSymbol(data[0]);
       }
+
+      const initialPrices: Record<string, string> = {};
+      data.forEach((ticker) => {
+        initialPrices[ticker] = "Loading...";
+      });
+      setPrices(initialPrices);
     });
   }, []);
 
   // ---------------- FETCH HISTORY ----------------
   useEffect(() => {
-    if (!selectedSymbol) return;
+    if (!selectedSymbol) {
+      return;
+    }
 
     fetchHistory(selectedSymbol).then((data) => {
       setChartData(data);
@@ -53,8 +66,9 @@ function App() {
         [data.symbol]: data.price,
       }));
 
-      // update chart ONLY for selected symbol
-        if (data.symbol === selectedSymbol) {
+      if (data.symbol !== selectedSymbolRef.current) {
+        return;
+      }
       setChartData((prev) => [
         ...prev.slice(-20),
         {
@@ -63,11 +77,10 @@ function App() {
           symbol: data.symbol,
         },
       ]);
-        }
     });
 
     return () => socket.close();
-  }, [selectedSymbol]);
+  }, []);
 
   return (
     <div className="container">
@@ -79,10 +92,10 @@ function App() {
         options={tickers}
       />
 
-  <div className="dashboard-grid">
-      <PriceList prices={prices} />
-    <ChartView data={chartData} symbol={selectedSymbol} />
-  </div>
+      <div className="dashboard-grid">
+        <PriceList prices={prices} />
+        <ChartView data={chartData} symbol={selectedSymbol} />
+      </div>
     </div>
   );
 }
