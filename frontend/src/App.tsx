@@ -4,8 +4,8 @@ import type { PriceData } from "./services/websocket";
 import TickerSelector from "./components/TickerSelector";
 import PriceList from "./components/PriceList";
 import ChartView from "./components/ChartView";
+import PriceAlert from "./components/PriceAlert";
 import { fetchHistory, fetchTickers } from "./services/api";
-
 
 type ChartData = {
   time: string;
@@ -95,6 +95,7 @@ function App() {
       <div className="dashboard-grid">
         <PriceList prices={prices} />
         <ChartView data={chartData} symbol={selectedSymbol} />
+        <PriceAlert selectedTicker={selectedSymbol} />
       </div>
     </div>
   );
