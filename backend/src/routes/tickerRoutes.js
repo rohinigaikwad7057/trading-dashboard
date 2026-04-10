@@ -29,4 +29,26 @@ router.get("/history", (req, res) => {
   res.json(history);
 });
 
+//NEW ALERT ROUTE
+router.post("/alert", (req, res) => {
+  const { symbol, targetPrice } = req.body;
+
+  if (!symbol || !targetPrice) {
+    return res.status(400).json({ message: "Missing fields" });
+  }
+
+  const wsService = req.app.locals.wsService;
+
+  const alerts = wsService.getAlerts();
+
+  alerts.push({
+    symbol,
+    targetPrice: Number(targetPrice),
+  });
+
+  wsService.setAlerts(alerts);
+
+  res.json({ message: "Alert added successfully" });
+});
+
 module.exports = router;

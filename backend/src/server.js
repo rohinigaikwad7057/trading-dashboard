@@ -2,14 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const http = require("http");
 
-const http = require("http");
 const app = require("./app");
 const setupWebSocket = require("./websocket/socket");
 
-// Create HTTP server
 const server = http.createServer(app);
-// Attach WebSocket
-setupWebSocket(server);
+
+//CHANGE: store wsService
+const wsService = setupWebSocket(server);
+app.locals.wsService = wsService;
 
 const PORT = process.env.PORT || 3001;
 
