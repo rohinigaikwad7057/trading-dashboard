@@ -1,7 +1,8 @@
 body {
   margin: 0;
   font-family: "Inter", sans-serif;
-  background: #f5f7fb;
+  background: radial-gradient(circle at top center, rgba(59, 130, 246, 0.2), transparent 35%),
+    linear-gradient(180deg, #eef2ff 0%, #f8fafc 100%);
   color: #1f2937;
 }
 
@@ -9,13 +10,13 @@ body {
   max-width: 1180px;
   width: min(100%, 1180px);
   margin: 0 auto;
-  padding: 24px 18px 32px;
+  padding: 32px 20px 36px;
 }
 
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: 22px;
 }
 
 @media (min-width: 960px) {
@@ -33,26 +34,31 @@ body {
 
 .title {
   text-align: center;
-  font-size: clamp(2.2rem, 4vw, 3.2rem);
-  font-weight: 700;
-  margin: 0 auto 24px;
-  color: #111827;
-  max-width: 800px;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 800;
+  margin: 0 auto 16px;
+  color: transparent;
+  max-width: 840px;
+  letter-spacing: -0.04em;
+  background: linear-gradient(90deg, #2563eb, #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 .card {
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 24px;
-  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
-  border: 1px solid rgba(15, 23, 42, 0.05);
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 28px;
+  padding: 26px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.16);
+  backdrop-filter: blur(12px);
 }
 
 .section-title {
   font-size: 1.15rem;
   font-weight: 700;
   margin-bottom: 16px;
-  color: #111827;
+  color: #0f172a;
 }
 
 @media (max-width: 640px) {
@@ -62,5 +68,10 @@ body {
 
   .card {
     padding: 20px;
+  }
+
+  .title {
+    font-size: 2.2rem;
+    margin-bottom: 18px;
   }
 }
