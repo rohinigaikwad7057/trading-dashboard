@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  backend:
+    container_name: trading-dashboard-backend
+    build: ./backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+
+  frontend:
+    container_name: trading-dashboard-frontend
+    build: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
