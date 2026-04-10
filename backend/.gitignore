@@ -8,12 +8,12 @@ yarn-error.log
 # Environment variables
 .env
 
+# Test coverage
+coverage
+
 # OS files
 .DS_Store
 Thumbs.db
 
-# Coverage (from tests)
-coverage
-
-# Optional: local configs
+# Editor configs
 .vscode

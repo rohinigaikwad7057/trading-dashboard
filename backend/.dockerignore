@@ -5,16 +5,11 @@ node_modules
 npm-debug.log
 yarn-error.log
 
-# Git
-.git
-.gitignore
-
-# Docker
-Dockerfile
-.dockerignore
-
 # Environment
 .env
+
+# Git
+.git
 
 # OS files
 .DS_Store
