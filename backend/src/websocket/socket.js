@@ -11,17 +11,14 @@ function setupWebSocket(server) {
     console.log("Client connected");
 
     const interval = setInterval(() => {
-      const symbol =
-        tickers[Math.floor(Math.random() * tickers.length)];
+      tickers.forEach((symbol) => {
+        const data = {
+          symbol,
+          price: getPrice(),
+        };
 
-      const data = {
-        symbol,
-        price: getPrice(),
-        time: new Date().toISOString(),
-      };
-      console.log(`Sending ${symbol}: ${data.price}`);
-
-      ws.send(JSON.stringify(data));
+        ws.send(JSON.stringify(data));
+      });
     }, 1000);
 
     ws.on("close", () => {
